@@ -14,12 +14,12 @@ namespace Game.Scripts {
 
             var z = Mathf.Sin(a) * radius;
 
-            var flipDirection = flip ? -1 : 1;
+            var flipDirection = flip ? 1 : -1;
 
             Joint.connectedBody = null;
 
             var wheelTransform = transform;
-            wheelTransform.localPosition = new Vector3(-width * flipDirection, y, z);
+            wheelTransform.localPosition = new Vector3(width * flipDirection, y, z);
             wheelTransform.rotation = Quaternion.Euler(rotation, 0, 0);
             wheelTransform.localScale = new Vector3(flipDirection, 1, 1);
 
@@ -35,9 +35,9 @@ namespace Game.Scripts {
             visualTransform.rotation = quat;
             visualTransform.position = pose;
 
-            if (Collider.isGrounded) {
-                Collider.motorTorque = 30;
-            }
+//            if (Collider.isGrounded) {
+//                Collider.motorTorque = 30;
+//            }
         }
     }
 }
