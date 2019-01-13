@@ -7,30 +7,31 @@ namespace Game.Scripts {
 
         private float direction;
 
-        public void UpdateWheelPosition(bool flip, float rotation, float angle, float radius, float width,
+        public void UpdateWheelPosition(bool flip, float wheelWidth, float wheelRadius, float wheelRotation,
+            float axleAngle, float axleRadius, float axleWidth,
             Rigidbody connectedTo) {
-            var a = angle * Mathf.Deg2Rad;
+            var a = axleAngle * Mathf.Deg2Rad;
 
-            var y = Mathf.Cos(a) * radius;
+            var y = Mathf.Cos(a) * axleRadius;
 
-            var z = Mathf.Sin(a) * radius;
+            var z = Mathf.Sin(a) * axleRadius;
 
             direction = flip ? 1 : -1;
 
             Joint.connectedBody = null;
 
             var wheelTransform = transform;
-            wheelTransform.localPosition = new Vector3(width * direction, y, z);
-            wheelTransform.rotation = Quaternion.Euler(rotation, flip ? 0 : 180, 0);
+            wheelTransform.localPosition = new Vector3(axleWidth * direction, y, z);
+            wheelTransform.rotation = Quaternion.Euler(wheelRotation, 0, 0);
 
-            var wheelRadius = Random.Range(0.5f, 3f);
-            WheelBody.transform.localScale = new Vector3(Random.Range(0.5f, 2.0f), wheelRadius, wheelRadius);
+            WheelBody.transform.localScale = new Vector3(wheelWidth * direction, wheelRadius, wheelRadius);
+            WheelBody.maxAngularVelocity = 100;
 
             Joint.connectedBody = connectedTo;
         }
 
         private void Update() {
-            WheelBody.AddRelativeTorque(10 * direction, 0, 0);
+            WheelBody.AddRelativeTorque(10, 0, 0);
 //            if (Collider.isGrounded) {
 //                Collider.motorTorque = 30;
 //            }
